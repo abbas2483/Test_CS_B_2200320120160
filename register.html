@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url(pexels-pixabay-209831.jpg);
+            text-align: center;
+            margin: 50px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333333;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            color: #555555;
+        }
+
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4caf50;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="registrationForm" onsubmit="event.preventDefault(); registerUser();">
+        <h2>User Registration</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="t1" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="t2" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="t3" required>
+
+        <button type="submit">Register</button>
+        <p class="error-message" id="errorMessage"></p>
+    </form><br>
+
+    <p><u><b>NOTE:</b> The information you enter is saved under the Data Security Act 2009 (India), so feel free to register.</u></p>
+
+    <script>
+        function registerUser() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'wetherwise.html'; // Redirect on success
+                } else {
+                    errorMessage.textContent = 'Registration is not completed yet. Please try again.'; // Display error message
+                }
+            })
+            .catch(error => {
+                errorMessage.textContent = 'Registration is not completed yet. Please try again.'; // Display error message
+                console.error('Error during registration:', error);
+            });
+        }
+        function validate(){
+            const a=document.getElementById('password').value;
+        }
+    </script>
+
+</body>
+</html>
